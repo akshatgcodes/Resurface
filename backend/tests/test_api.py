@@ -25,9 +25,12 @@ def test_requires_login(client):
 
 
 def test_create_with_source_and_tags(user):
-    h = add(user, "  Clarity about what matters provides clarity about what does not. ",
-            tags=["#Focus", "deep work", "focus"],
-            source={"kind": "book", "title": "Deep Work", "author": "Cal Newport"})
+    h = add(
+        user,
+        "  Clarity about what matters provides clarity about what does not. ",
+        tags=["#Focus", "deep work", "focus"],
+        source={"kind": "book", "title": "Deep Work", "author": "Cal Newport"},
+    )
     assert h["text"].startswith("Clarity") and h["text"].endswith("not.")
     assert h["tags"] == ["deep-work", "focus"]
     assert h["source"]["author"] == "Cal Newport"
@@ -48,9 +51,15 @@ def test_search_filter_patch_delete(user):
     assert user.get("/api/highlights", params={"tag": "rust"}).json()["items"][0]["important"]
     assert user.get("/api/highlights", params={"important": True}).json()["total"] == 1
 
-    patched = user.patch(f"/api/highlights/{a['id']}", json={"note": "re-read", "tags": ["react", "hooks"]}).json()
+    patched = user.patch(
+        f"/api/highlights/{a['id']}", json={"note": "re-read", "tags": ["react", "hooks"]}
+    ).json()
     assert patched["note"] == "re-read" and patched["tags"] == ["hooks", "react"]
-    assert {t["name"]: t["count"] for t in user.get("/api/tags").json()} == {"hooks": 1, "react": 1, "rust": 1}
+    assert {t["name"]: t["count"] for t in user.get("/api/tags").json()} == {
+        "hooks": 1,
+        "react": 1,
+        "rust": 1,
+    }
 
     assert user.delete(f"/api/highlights/{a['id']}").status_code == 204
     assert user.get("/api/highlights").json()["total"] == 1
@@ -58,10 +67,18 @@ def test_search_filter_patch_delete(user):
 
 def test_save_article_fetches_title(user, monkeypatch):
     monkeypatch.setattr(fetch, "fetch_meta", lambda url: ("How to Read a Paper", "S. Keshav"))
-    r = user.post("/api/articles", json={"url": "https://example.com/paper",
-                                          "highlights": ["Read it three times", " "], "tags": ["papers"]})
+    r = user.post(
+        "/api/articles",
+        json={
+            "url": "https://example.com/paper",
+            "highlights": ["Read it three times", " "],
+            "tags": ["papers"],
+        },
+    )
     body = r.json()
-    assert r.status_code == 201 and body["title"] == "How to Read a Paper" and body["highlights"] == 1
+    assert (
+        r.status_code == 201 and body["title"] == "How to Read a Paper" and body["highlights"] == 1
+    )
     sources = user.get("/api/sources").json()
     assert sources[0]["highlights"] == 1 and sources[0]["author"] == "S. Keshav"
 

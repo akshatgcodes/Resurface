@@ -28,6 +28,7 @@ class BrokenRedis:
     def __getattr__(self, name):
         def fail(*a, **k):
             raise redis_lib.ConnectionError("down")
+
         return fail
 
 

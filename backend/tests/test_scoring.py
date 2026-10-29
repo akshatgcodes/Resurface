@@ -91,8 +91,13 @@ def test_limit(db):
 
 
 def test_reason_text():
-    h = Highlight(text="t", created_at=NOW - timedelta(days=12), surfaced_count=0,
-                  interval_days=1, important=True)
+    h = Highlight(
+        text="t",
+        created_at=NOW - timedelta(days=12),
+        surfaced_count=0,
+        interval_days=1,
+        important=True,
+    )
     assert scoring.reason(h, 24, NOW) == "saved 12 days ago, marked important"
     h.last_surfaced_at, h.surfaced_count, h.interval_days = NOW - timedelta(days=1), 3, 8
     h.important = False
