@@ -61,3 +61,7 @@ export const api = {
 
 export const parseTags = (s: string) =>
   s.split(/[,\n]/).map((t) => t.trim()).filter(Boolean);
+
+/** Pasted text → one highlight per paragraph (blank line between them). */
+export const splitHighlights = (text: string) =>
+  text.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);

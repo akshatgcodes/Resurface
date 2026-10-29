@@ -47,7 +47,7 @@ npm run dev                               # http://localhost:5173
 
 ```bash
 cd backend && uv run ruff check . && uv run pytest
-cd frontend && npm run build
+cd frontend && npm test && npm run build
 
 # scoring on real Postgres
 docker run -d --rm --name pgtest -e POSTGRES_PASSWORD=test -p 55432:5432 postgres:17-alpine

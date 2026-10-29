@@ -46,7 +46,7 @@ Or without Docker: `cd backend && uv sync && cp .env.example .env` (set `APP_PAS
 
    ```bash
    (cd backend && uv run ruff check . && uv run pytest)
-   (cd frontend && npm run build)
+   (cd frontend && npm test && npm run build)
    ```
 
 4. **Open a pull request** against `main`. The PR template will guide you.

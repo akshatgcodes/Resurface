@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { api, parseTags } from "../api";
+import { api, parseTags, splitHighlights } from "../api";
 import type { Source } from "../types";
 
 type Tab = "highlight" | "article" | "note";
@@ -36,7 +36,7 @@ export default function AddPanel({ onAdded }: { onAdded: () => void }) {
     setMessage(null);
     try {
       if (tab === "article") {
-        const highlights = text.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+        const highlights = splitHighlights(text);
         const r = await api.saveArticle({ url, title: title || undefined, highlights, tags: parseTags(tags) });
         setMessage({
           ok: !r.fetch_error,

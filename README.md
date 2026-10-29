@@ -51,7 +51,7 @@ The five aren't random. A **spaced-repetition score runs in SQL**: each highligh
 | Data | PostgreSQL (SQLite for tests) · Redis |
 | Email | SMTP; Mailpit locally |
 | Infra | Docker Compose with health-checked dependencies |
-| Tooling | uv · pytest · fakeredis · ruff · GitHub Actions |
+| Tooling | uv · pytest · fakeredis · Vitest · ruff · GitHub Actions |
 
 ---
 
