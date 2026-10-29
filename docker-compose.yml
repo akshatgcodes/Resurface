@@ -1,0 +1,61 @@
+# docker compose up --build  →  app http://localhost:5173 · mail http://localhost:8025
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: resurface
+      POSTGRES_PASSWORD: resurface
+      POSTGRES_DB: resurface
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resurface"]
+      interval: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      retries: 20
+
+  # Catches outgoing mail locally; nothing leaves your machine
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports:
+      - "8025:8025"
+
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://resurface:resurface@db:5432/resurface
+      REDIS_URL: redis://redis:6379/0
+      APP_PASSWORD: ${APP_PASSWORD:-resurface}
+      SESSION_SECRET: ${SESSION_SECRET:-dev-only-change-me}
+      FRONTEND_URL: http://localhost:5173
+      PUBLIC_URL: http://localhost:5173
+      SCHEDULER_ENABLED: "true"
+      DIGEST_HOUR: ${DIGEST_HOUR:-8}
+      DIGEST_TIMEZONE: ${DIGEST_TIMEZONE:-Asia/Kolkata}
+      DIGEST_TO: ${DIGEST_TO:-me@resurface.local}
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_STARTTLS: ${SMTP_STARTTLS:-false}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
