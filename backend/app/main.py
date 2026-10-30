@@ -9,6 +9,7 @@ from app.config import settings
 from app.db import Base, engine
 from app.digest import make_scheduler
 from app.routers import digest, library
+from app.site import mount_site
 
 logging.basicConfig(level=logging.INFO)
 
@@ -42,3 +43,8 @@ app.include_router(digest.router)
 @app.get("/health")
 def health() -> dict:
     return {"ok": True}
+
+
+# Must come after every API route (see app/site.py)
+if settings.site_dir:
+    mount_site(app, settings.site_dir)
