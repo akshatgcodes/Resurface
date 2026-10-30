@@ -14,6 +14,9 @@
 </p>
 
 <p align="center">
+  <a href="https://resurface.akshatgcodes.in">
+    <img src="https://img.shields.io/badge/live_demo-c2410c-c2410c?style=flat-square" alt="Live Demo">
+  </a>
   <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React">
   <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL">
@@ -29,6 +32,9 @@
 You highlight a great passage, and six months later you've forgotten it existed. Resurface stores highlights, articles and notes, tags them, and every morning emails you five worth rereading.
 
 The five aren't random. A **spaced-repetition score runs in SQL**: each highlight has a review interval that doubles every time you see it (1 day, 2, 4, 8…), so new ideas come back often and well-known ones fade out, while anything you've marked important returns about twice as often. No ML, just a formula Postgres can sort by.
+
+> **Live demo →** [resurface.akshatgcodes.in](https://resurface.akshatgcodes.in)
+> Log in with the demo password `demo1234`. The demo builds digests but doesn't email them. The free host sleeps when idle, so the first load can take up to a minute.
 
 ---
 

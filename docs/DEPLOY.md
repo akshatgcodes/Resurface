@@ -1,8 +1,24 @@
 # Deploy
 
-Resurface is **not deployed yet**. The Compose file is the reference setup.
+## Live demo
 
-## Single server
+Live at **https://resurface.akshatgcodes.in**: one free Render web service (Python runtime, Singapore), connected to this repo, so every push to `main` deploys. The free instance sleeps after 15 minutes idle and takes up to a minute to wake.
+
+The API serves the whole site when `SITE_DIR` is set (`backend/app/site.py`): the landing page (`landing/`, a Next.js static export) at `/`, the React app at `/app/`, and the API at `/api`.
+
+| Setting | Value |
+|---|---|
+| Build | `pip install uv && cd backend && uv sync --frozen --no-dev && cd ../landing && npm ci && npm run build && cd ../frontend && npm ci && VITE_BASE=/app/ npm run build` |
+| Start | `cd backend && .venv/bin/uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| Health check | `/health` |
+
+Database: Neon Postgres. Cache and lock: a free Render Key Value instance in the same region, reached over the private network (`REDIS_URL=redis://<id>:6379`).
+
+Environment: `DATABASE_URL`, `REDIS_URL`, `SESSION_SECRET`, `APP_PASSWORD` (`demo1234` on the demo), `SITE_DIR=/opt/render/project/src`, `FRONTEND_URL`, `PUBLIC_URL`, `PYTHON_VERSION`, and `SCHEDULER_ENABLED=false`: a sleeping instance can't run the 08:00 job, and with no SMTP settings digests are built in the app but not emailed.
+
+## Other ways to host it
+
+### Single server
 
 Run `docker compose up -d --build` on a small VM, put a reverse proxy with TLS in front of the `web` service, and set in `.env`:
 
@@ -10,7 +26,7 @@ Run `docker compose up -d --build` on a small VM, put a reverse proxy with TLS i
 - `DIGEST_TO` and real `SMTP_*` settings (remove Mailpit or stop exposing port 8025)
 - `PUBLIC_URL` to the public address
 
-## Managed services
+### Managed services
 
 | Part | Option |
 |---|---|

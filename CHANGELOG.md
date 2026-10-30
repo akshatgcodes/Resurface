@@ -6,6 +6,11 @@ All notable changes to **Resurface** are documented here.
 
 ## [Unreleased]
 
+### ✨ Added
+- Product page at `/` and the app at `/app/`, served together from one host
+- Deployed on Render (free web service): the API serves the landing page and app when `SITE_DIR` is set, Neon Postgres
+- Render Key Value for the cache and lock
+
 ---
 
 ## [0.1.0] — 2026-10-29
