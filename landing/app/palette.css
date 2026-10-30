@@ -1,0 +1,30 @@
+/* Same colours as frontend/src/styles.css */
+:root {
+  --bg: #faf7f2;
+  --bg-elevated: #ffffff;
+  --bg-sunken: #f3eee6;
+  --fg: #1c1917;
+  --fg-muted: #78716c;
+  --border: #e7e0d5;
+  --accent: #c2410c;
+  --on-accent: #ffffff;
+  --accent-soft: #fdeee4;
+  --accent-fg: #9a3412;
+  --code-bg: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151311;
+    --bg-elevated: #1e1b18;
+    --bg-sunken: #0e0d0b;
+    --fg: #efe9e1;
+    --fg-muted: #a39a90;
+    --border: #36302a;
+    --accent: #f08a4b;
+    --on-accent: #1a0f08;
+    --accent-soft: #3a2418;
+    --accent-fg: #f6b083;
+    --code-bg: #0e0d0b;
+  }
+}
